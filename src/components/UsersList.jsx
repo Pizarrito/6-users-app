@@ -1,6 +1,6 @@
 import { UserRow } from "./UserRow"
 
-export const UsersList = ( { users = []}  ) =>{
+export const UsersList = ( {handlerUserSelectedForm, handlerDeleteUser,   users = []}  ) =>{
 
     return(
         <>
@@ -25,7 +25,9 @@ export const UsersList = ( { users = []}  ) =>{
                             id={id}
                             username={username}
                             email={email}
-                        ></UserRow>  
+                            handlerUserSelectedForm= {handlerUserSelectedForm}
+                            handlerDeleteUser = { handlerDeleteUser }
+                        />   
 
                         ))
 
