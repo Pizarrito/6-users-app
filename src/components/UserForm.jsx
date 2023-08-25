@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Swal from "sweetalert2";
+import { UserContext } from "../context/UserContext";
 
-export const UserForm = ( { handlerCloseForm  ,userSelected, handlerAddUser, InitialUserForm }) =>{
+export const UserForm = ( { handlerCloseForm  ,userSelected }) =>{
+
+    const { InitialUserForm, handlerAddUser } = useContext(UserContext);
 
     const [userForm, setUserForm] = useState(InitialUserForm); // esta constante necesita los datos iniciales
 
@@ -34,6 +37,15 @@ export const UserForm = ( { handlerCloseForm  ,userSelected, handlerAddUser, Ini
             )
             return 
         }
+        if(!email.includes('@')) {
+            Swal.fire( // valida el formulario
+                'Error de validacion de email',
+                'El email debe ser valido, incluir un @ ',
+                'error'
+            )
+            return 
+        }
+        
         // Aqui guardamos los datos que llegan del formulario
         handlerAddUser(userForm);        
         setUserForm(InitialUserForm);

@@ -1,7 +1,12 @@
+import { useContext } from "react"
 import { UserForm } from "./UserForm"
+import { UserContext } from "../context/UserContext"
 
-export const UseModalForm =  ({handlerCloseForm, InitialUserForm, userSelected, handlerAddUser}) => {
 
+
+export const UseModalForm =  () => {
+
+    const { userSelected, handlerCloseForm} = useContext(UserContext)
     
     
     return(
@@ -18,9 +23,7 @@ export const UseModalForm =  ({handlerCloseForm, InitialUserForm, userSelected, 
                             <div className="modal-body ">
                                 <UserForm 
                                     handlerCloseForm = { handlerCloseForm }
-                                    InitialUserForm = { InitialUserForm }
                                     userSelected = {userSelected}
-                                    handlerAddUser = { handlerAddUser }  // recibe el usuario y lo guarda
                                 />    
                             </div>
                         </div>

@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserForm } from "../components/UserForm"
 import { useParams } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 
 //users se deja users=[] porque en caso de añadir un nuevo usuario este dato viene vacio y deja un error
 
-export const RegisterPage = ({users=[], InitialUserForm,handlerAddUser }) => {
+export const RegisterPage = () => {
+
+    const {users=[], InitialUserForm } = useContext(UserContext);
 
     const [ userSelected, setUserSelected ] = useState(InitialUserForm);
 
@@ -16,9 +19,11 @@ export const RegisterPage = ({users=[], InitialUserForm,handlerAddUser }) => {
     console.log (users);
     useEffect(() => {
         console.log(id);
-        const user = users.find(u => u.id == id) || InitialUserForm;
-        // se le asigna a SetUserSelected dependiendo del caso el parametro user
-        setUserSelected(user)
+        if(id){
+            const user = users.find(u => u.id == id) || InitialUserForm;
+            // se le asigna a SetUserSelected dependiendo del caso el parametro user
+            setUserSelected(user)
+        }
         },[id]);
 
 return(
@@ -27,10 +32,7 @@ return(
         <h4>{userSelected.id > 0 ? 'Editar' : 'Registrar'}</h4>
         <div className="row">
             <div className="col">
-                <UserForm 
-                    userSelected={userSelected} 
-                    handlerAddUser={handlerAddUser}
-                    InitialUserForm={InitialUserForm}/>
+                <UserForm userSelected={userSelected}/>
             </div>
         </div>
     </div>

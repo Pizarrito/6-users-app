@@ -1,8 +1,11 @@
+import { useContext } from "react"
 import { NavLink } from "react-router-dom"
+import { UserContext } from "../context/UserContext"
 
 
-export const UserRow = ({ handlerUserSelectedForm, handlerDeleteUser,id, username, email }) =>{  //solo pasamos el user 
+export const UserRow = ({id,username,email }) =>{  //solo pasamos el user 
   
+const {handlerUserSelectedForm,handlerDeleteUser } = useContext(UserContext);
 
 
 
@@ -28,7 +31,6 @@ export const UserRow = ({ handlerUserSelectedForm, handlerDeleteUser,id, usernam
                 </td>
                 <td>
                     <NavLink
-                        
                         className= {'btn btn-secondary btn-sm'}
                         to={'/users/edit/'+ id } >
                         Update Route

@@ -1,14 +1,15 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Swal from "sweetalert2";
+import { AuthContext } from "../context/AuthContext";
 
 const initialLoginForm = {
     username:'',
     password:'',
 }
 
-export const LoginPage = ({handlerLogIn}) => {
+export const LoginPage = () => {
 
-
+    const {handlerLogIn} = useContext(AuthContext);
     //crea la funcion login Form con sus datos de inicio
     const [ loginForm,  setLoginForm ] = useState(initialLoginForm);
     //loginForm maneja 2 datos username y password se puede ocupar el dato de loginForm y luego desestructurar
