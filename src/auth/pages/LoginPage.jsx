@@ -6,7 +6,7 @@ const initialLoginForm = {
     password:'',
 }
 
-export const LoginPage = ({handlerLogin}) => {
+export const LoginPage = ({handlerLogIn}) => {
 
 
     //crea la funcion login Form con sus datos de inicio
@@ -28,7 +28,7 @@ export const LoginPage = ({handlerLogin}) => {
         if(!username || !password){
             Swal.fire('Error de validacion', 'Username y password requeridos', 'error' );
         }
-        handlerLogin({username, password})
+        handlerLogIn({username, password})
 
         setLoginForm(initialLoginForm); // llena el formulario con datos vacios
     }

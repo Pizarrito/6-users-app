@@ -1,6 +1,7 @@
 import { useReducer, useState } from "react";
 import { usersReducer } from "../reducers/usersReducer";
 import  Swal  from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 const initialUsers = [
     {
@@ -23,7 +24,11 @@ export const useUsers  = () => {
     const [ userSelected, setUserSelected ] = useState(InitialUserForm);
     // maneja el estado del formulario si es visible o no
     const [ visibleForm, setVisibleForm ] = useState(false); // por defecto el formulario queda invicible
- 
+    // navigate permite hacer redirecciones automaticas despues de completar un accion o un evento
+
+    const navigate = useNavigate();
+
+
     const handlerAddUser = (user) => {
         dispatch ({
             type : (user.id === 0) ?  'addUser' : 'updateUser' , //define type para llamar al userReducer
@@ -41,19 +46,21 @@ export const useUsers  = () => {
         )
 
         handlerCloseForm();
+        // redirigue a /users
+        navigate('/users'); 
 
 
     }    
 
     const handlerDeleteUser = (id) => {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: '¿Eliminar este usuario?',
+            text: "Esto no se puede revertir",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Eliminar'
           }).then((result) => {
             if (result.isConfirmed) {
               Swal.fire(
@@ -61,7 +68,7 @@ export const useUsers  = () => {
                     type: 'deleteUser',
                     payload:id
                 }),
-                'Deleted!',
+                'Eliminado',
                 'success'
               )
             }

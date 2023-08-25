@@ -1,23 +1,22 @@
 import { UsersList } from "../components/UsersList";
-import { useUsers } from "../hooks/usersUsers"; 
 import { UseModalForm } from "../components/UserModalForm";
  
 
 
-export const UsersPage = () =>{ 
+export const UsersPage = ({
+    users,
+    userSelected,
+    InitialUserForm,
+    visibleForm, // valida el estado del formualario si mostrarlo o no 
+    handlerAddUser,
+    handlerDeleteUser,
+    handlerUserSelectedForm,
+    handlerCloseForm,
+    handlerOpenForm
+}
+) =>{ 
     
-    // maneja los datos iniciales
-    const {       
-        users,
-        userSelected,
-        InitialUserForm,
-        visibleForm, // valida el estado del formualario si mostrarlo o no 
-        handlerAddUser,
-        handlerDeleteUser,
-        handlerUserSelectedForm,
-        handlerCloseForm,
-        handlerOpenForm
-    } = useUsers(); // llama los datos de useUsers de su return 
+
     
     return (
         <>

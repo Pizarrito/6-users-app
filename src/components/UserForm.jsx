@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Swal from "sweetalert2";
 
-export const UserForm = ( {handlerCloseForm  ,userSelected, handlerAddUser, InitialUserForm }) =>{
+export const UserForm = ( { handlerCloseForm  ,userSelected, handlerAddUser, InitialUserForm }) =>{
 
     const [userForm, setUserForm] = useState(InitialUserForm); // esta constante necesita los datos iniciales
 
@@ -43,8 +43,6 @@ export const UserForm = ( {handlerCloseForm  ,userSelected, handlerAddUser, Init
     const onCloseForm = () => {
         handlerCloseForm();
         setUserForm(InitialUserForm);
-
-
     }
     
     return (
@@ -80,13 +78,15 @@ export const UserForm = ( {handlerCloseForm  ,userSelected, handlerAddUser, Init
                 type="submit">
                 { id > 0 ? 'Editar' : 'Crear' }    
             </button>
-            <button 
+            
+            {!handlerCloseForm ||<button 
                 className="btn btn-primary mx-2"
                 type="button"
-                onClick={ onCloseForm}
+                onClick={()=> onCloseForm()}
                 >
                     Cerrar
            </button>
+            }
         </form>
     )
 
