@@ -1,4 +1,4 @@
-import { useUsers } from "../hooks/usersUsers";
+import { useUsers } from "../hooks/useUsers";
 import { UserContext } from "./UserContext"
 
 
@@ -13,7 +13,8 @@ export const UserProvider = ({children}) => {
             handlerDeleteUser,
             handlerUserSelectedForm,
             handlerCloseForm,
-            handlerOpenForm
+            handlerOpenForm,
+            getUsers
         } = useUsers(); // llama los datos de useUsers de su return 
 
 
@@ -28,7 +29,8 @@ export const UserProvider = ({children}) => {
                 handlerDeleteUser,
                 handlerUserSelectedForm,
                 handlerCloseForm,
-                handlerOpenForm
+                handlerOpenForm, 
+                getUsers,
             }
         }>
             {children}

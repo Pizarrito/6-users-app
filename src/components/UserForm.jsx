@@ -29,7 +29,7 @@ export const UserForm = ( { handlerCloseForm  ,userSelected }) =>{
 
     const onSubmit = (event) =>{
         event.preventDefault();
-        if (!username || (!password && id === 0 ) || !email){ // valida que el formulario no venga vacio 
+       /* if (!username || (!password && id === 0 ) || !email){ // valida que el formulario no venga vacio 
             Swal.fire( // valida el formulario
                 'Error de validacion',
                 'Debe Completar los campos del formulario ',
@@ -45,7 +45,7 @@ export const UserForm = ( { handlerCloseForm  ,userSelected }) =>{
             )
             return 
         }
-        
+        */
         // Aqui guardamos los datos que llegan del formulario
         handlerAddUser(userForm);        
         setUserForm(InitialUserForm);

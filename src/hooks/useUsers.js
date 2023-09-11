@@ -2,18 +2,19 @@ import { useReducer, useState } from "react";
 import { usersReducer } from "../reducers/usersReducer";
 import  Swal  from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
+import { findAll, remove, save, update } from "../services/userService";
 
-const initialUsers = [
-    {
-        id:1,
-        username: 'pepe',
-        password: '12345',
-        email: 'pepe@correo.gmail'
-    }
-];
+const initialUsers = [];
 
 const InitialUserForm = {
     id:0,
+    username: '',
+    password: '',
+    email:'', 
+}
+
+const initialErrors = {
+    id:'',
     username: '',
     password: '',
     email:'', 
@@ -26,13 +27,39 @@ export const useUsers  = () => {
     const [ visibleForm, setVisibleForm ] = useState(false); // por defecto el formulario queda invicible
     // navigate permite hacer redirecciones automaticas despues de completar un accion o un evento
 
+    const [errors, setErrors]= useState(initialErrors);
     const navigate = useNavigate();
 
 
-    const handlerAddUser = (user) => {
+    // se crea una funcion que retorne los datos iniciales de los usuarios
+    //donde espera un dato debe de ser asyncrona y debe tener un await de esperea la funcion que trae la
+    //promesa
+    const getUsers = async() =>{
+        const result = await findAll();
+        dispatch ({
+            type:'loadingUsers',
+            //le pide que consulte a result su data...
+            payload:result.data,
+        });
+    }
+
+    
+    // al tener que cargar un archivo de services debe convertirce en una funcion asincronica con 
+    // await
+    const handlerAddUser = async (user) => {
+        // si la id de usuario es 0 guarda el usuario
+        let response;
+        try {
+        // el await save devuelve un dato por eso necesitamos guardar el dato en una variable
+        // si la id no es 0 debe busca la id y la actualiza.
+        if(user.id === 0 ){ 
+            response = await save(user);
+        }else{
+            response = await update(user);
+        }
         dispatch ({
             type : (user.id === 0) ?  'addUser' : 'updateUser' , //define type para llamar al userReducer
-            payload: user, // pasa el usuario
+            payload: response.data, // pasa el usuario
         });
 
         Swal.fire(
@@ -47,10 +74,12 @@ export const useUsers  = () => {
 
         handlerCloseForm();
         // redirigue a /users
-        navigate('/users'); 
-
-
-    }    
+        navigate('/users');
+    } catch (error) {
+            console.error(error);
+        }
+    }
+      
 
     const handlerDeleteUser = (id) => {
         Swal.fire({
@@ -63,14 +92,16 @@ export const useUsers  = () => {
             confirmButtonText: 'Eliminar'
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire(
+                remove(id);
                 dispatch ({
                     type: 'deleteUser',
                     payload:id
-                }),
-                'Eliminado',
-                'success'
-              )
+                });
+                Swal.fire(
+                    'Usuario Eliminado',
+                    'El usuario ha sido elimando con exito!',
+                    'success'
+                )
             }
           })
     }
@@ -96,11 +127,13 @@ export const useUsers  = () => {
         userSelected,
         InitialUserForm,
         visibleForm,
+        errors,
         handlerAddUser,
         handlerDeleteUser,
         handlerUserSelectedForm,
         handlerCloseForm,
-        handlerOpenForm
+        handlerOpenForm,
+        getUsers,
+    }
 
     }
-}

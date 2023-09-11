@@ -2,6 +2,7 @@ import { UsersList } from "../components/UsersList";
 import { UseModalForm } from "../components/UserModalForm";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { useEffect } from "react";
  
 
 
@@ -9,10 +10,14 @@ export const UsersPage = () =>{
     const { 
         users,
         visibleForm, // valida el estado del formualario si mostrarlo o no 
-        handlerOpenForm
+        handlerOpenForm,
+        getUsers
     } = useContext(UserContext);
 
-    
+    useEffect(()=>{
+        getUsers();
+    })
+
     return (
         <>
          {!visibleForm || 

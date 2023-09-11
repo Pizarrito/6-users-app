@@ -23,6 +23,9 @@ export const usersReducer = (state  = [], action) => {
                 }
                 return u;
             })
+            //se crea este caso para que muestre algo en caso de una falla
+        case 'loadingUsers':
+            return action.payload;
         default:
             return state;
     }

@@ -32,15 +32,14 @@ export const UsersList = () =>{
                             email={email}
                         />   
 
-                        ))
+        
 
+                        ))
 
                     }
 
                 </tbody>
-
             </table>
-        
         </>
     )
 
