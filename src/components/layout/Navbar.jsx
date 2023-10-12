@@ -1,44 +1,46 @@
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../auth/context/AuthContext";
+import { useAuth } from "../../auth/hooks/useAuth";
 
 export const Navbar = () => {
 
-    const { login, handlerLogOut } = useContext(AuthContext)
-
-
+    const { login, handlerLogOut } = useAuth();
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand bg-body-tertiary">
             <div className="container-fluid">
-                <a className="navbar-brand" href="/users">UserApp</a>
+                <a className="navbar-brand" href="#">UsersApp</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse " id="navbarSupportedContent">
-                    
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav">
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/users"> Usuarios</NavLink>
+                            <NavLink className="nav-link" to="/users">
+                                Usuarios
+                            </NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/users/register"> Crear Usuarios</NavLink>
-                        </li>
+                        {!login.isAdmin ||
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/users/register">
+                                    Registrar Usuario
+                                </NavLink>
+                            </li>
+                        }
                     </ul>
                 </div>
+
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNavLogout">
                     <span className="nav-item nav-link text-primary mx-3">
+                        {console.log(login.user?.username)}
                         {login.user?.username}
                     </span>
                     <button
-                        onClick={ handlerLogOut }
-                        className="btn btn-outline-success"
-                        >
+                        onClick={handlerLogOut}
+                        className="btn btn-outline-success">
                         Logout
                     </button>
                 </div>
             </div>
         </nav>
-
-
     );
 }

@@ -1,9 +1,9 @@
 import { UsersList } from "../components/UsersList";
 import { UseModalForm } from "../components/UserModalForm";
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import { useEffect } from "react";
- 
+import { useUsers } from "../hooks/useUsers";
+import { useAuth } from "../auth/hooks/useAuth";
+
 
 
 export const UsersPage = () =>{ 
@@ -12,7 +12,10 @@ export const UsersPage = () =>{
         visibleForm, // valida el estado del formualario si mostrarlo o no 
         handlerOpenForm,
         getUsers
-    } = useContext(UserContext);
+    } = useUsers();
+    const { login } = useAuth();
+
+    
 
     useEffect(()=>{
         getUsers();
@@ -26,7 +29,9 @@ export const UsersPage = () =>{
         <div className="container my-4">
             <h2>Users App </h2>
                 <div className="col">
-                    { visibleForm || <button 
+                    {// si visible form es true o si el login trae el admin este boton se podra ver
+                    }
+                    { (visibleForm || !login.isAdmin ) || <button 
                         onClick={handlerOpenForm }
                         className="btn btn-primary my-2">
                             Nuevo Usuario

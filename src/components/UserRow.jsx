@@ -1,13 +1,13 @@
-import { useContext } from "react"
 import { NavLink } from "react-router-dom"
-import { UserContext } from "../context/UserContext"
+import { useUsers } from "../hooks/useUsers"
+import { useAuth } from "../auth/hooks/useAuth"
 
-
-export const UserRow = ({id,username,email }) =>{  //solo pasamos el user 
+export const UserRow = ({id,username,email, admin}) =>{  //solo pasamos el user 
   
-const {handlerUserSelectedForm,handlerDeleteUser } = useContext(UserContext);
+const {handlerUserSelectedForm,handlerDeleteUser } = useUsers();
 
 
+const {login} = useAuth();
 
     return(
         <>
@@ -16,6 +16,9 @@ const {handlerUserSelectedForm,handlerDeleteUser } = useContext(UserContext);
                 <td>{ id }</td>
                 <td>{ username } </td>
                 <td>{ email}</td>
+                {//valida si es admin
+                 }
+                {!login.isAdmin || <>
                 <td>
                     <button 
                         type="button"
@@ -24,7 +27,7 @@ const {handlerUserSelectedForm,handlerDeleteUser } = useContext(UserContext);
                             id,
                             username,
                             email,
-                            
+                            admin
                         })}>
                         update
                     </button>
@@ -44,6 +47,7 @@ const {handlerUserSelectedForm,handlerDeleteUser } = useContext(UserContext);
                         delete
                     </button>
                 </td>
+                </>}
             </tr>
         
         

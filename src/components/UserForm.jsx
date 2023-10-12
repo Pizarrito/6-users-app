@@ -1,14 +1,15 @@
-import { useContext, useEffect, useState } from "react"
-import Swal from "sweetalert2";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react"
+import { useUsers } from "../hooks/useUsers";
 
 export const UserForm = ( { handlerCloseForm  ,userSelected }) =>{
 
-    const { InitialUserForm, handlerAddUser } = useContext(UserContext);
+    const { InitialUserForm, handlerAddUser, errors } = useUsers();
 
     const [userForm, setUserForm] = useState(InitialUserForm); // esta constante necesita los datos iniciales
-
-    const {id, username, password, email } = userForm; // define como variables los datos del initialUserForm
+    
+    const [ checked,  setChecked ] = useState(userForm.admin);
+    
+    const {id, username, password, email, admin } = userForm; // define como variables los datos del initialUserForm
 
     useEffect (() => {
         setUserForm({
@@ -47,9 +48,17 @@ export const UserForm = ( { handlerCloseForm  ,userSelected }) =>{
         }
         */
         // Aqui guardamos los datos que llegan del formulario
-        handlerAddUser(userForm);        
-        setUserForm(InitialUserForm);
-        
+        handlerAddUser(userForm);                
+    }
+    //se le asigna el valor a la inversa al precionar el checkbox
+    const onCheckboxChange = () => {
+        setChecked(!checked);
+        setUserForm(
+            {
+                ...userForm,
+                admin: checked,
+            }
+        );
     }
 
     const onCloseForm = () => {
@@ -64,24 +73,37 @@ export const UserForm = ( { handlerCloseForm  ,userSelected }) =>{
                 placeholder="Username"
                 name="username"
                 value={ username }
-                onChange={ onInputChange}
+                onChange={ onInputChange}/>
+            <p className="text-danger">{errors?.username}</p>
 
-            />
             {id > 0 || <input 
                 className="form-control my-3 w-75"
                 placeholder="Password"
                 type="password"
                 value={ password }
                 name="password"
-                onChange={ onInputChange}
-            />}
+                onChange={ onInputChange}/>}
+            <p className="text-danger">{errors?.password}</p>
             <input 
                 className="form-control my-3 w-75"
                 placeholder="Email"
                 name="email"
                 value={ email }
-                onChange={ onInputChange}
-            />
+                onChange={ onInputChange}/>
+            <p className="text-danger">{errors?.email}</p>
+
+            <div className="my-3 form-check">
+                <input type="checkbox"
+                    name="admin"
+                    checked= {admin} 
+                    className="form-check-input"
+                    onChange={ onCheckboxChange}
+                />
+                <label className="form-check-label">Admin</label>  
+                
+
+            </div>
+
             <input type="hidden"
                 name="id"
                 value={ id } />
